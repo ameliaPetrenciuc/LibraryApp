@@ -1,6 +1,5 @@
 package view;
 
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
-import model.Book;
 import view.model.BookDTO;
 
 
@@ -27,10 +25,12 @@ public class BookView {
     private TextField titleTextField;
     private TextField stockTextField;
     private TextField priceTextField;
+    private TextField quantityTextField;
     private Label authorLabel;
     private Label titleLable;
     private Label stockLabel;
     private Label priceLabel;
+    private Label quantityLabel;
     private Button saveButton;
     private Button deleteButton;
     private Button sellButton;
@@ -99,6 +99,11 @@ public class BookView {
         stockTextField=new TextField();
         gridPane.add(stockTextField,4,2);
 
+        quantityLabel=new Label("Quantity");
+        gridPane.add(quantityLabel,5,1);
+        quantityTextField=new TextField();
+        gridPane.add(quantityTextField,6,1);
+
         saveButton=new Button("Save");
         gridPane.add(saveButton,5,2);
 
@@ -115,6 +120,10 @@ public class BookView {
 
     public void addDeleteButtonListener(EventHandler<ActionEvent> deleteButtonListener){
         deleteButton.setOnAction(deleteButtonListener);
+    }
+
+    public void addSellButtonListener(EventHandler<ActionEvent> sellButtonListener){
+        sellButton.setOnAction(sellButtonListener);
     }
 
     public void addDisplayAlertMessage(String title, String header, String content){
@@ -142,6 +151,10 @@ public class BookView {
         return Float.valueOf(priceTextField.getText());
     }
 
+    public Long getQuantity(){
+        return Long.valueOf(quantityTextField.getText());
+    }
+
     public void addBookToObservableList(BookDTO bookDTO){
         this.booksObservableList.add(bookDTO);
     }
@@ -153,9 +166,5 @@ public class BookView {
     public TableView getBookTableView(){
         return bookTableView;
     }
-
-
-
-
 
 }

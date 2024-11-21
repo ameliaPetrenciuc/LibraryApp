@@ -1,7 +1,8 @@
-package service;
+package service.book;
 
 import model.Book;
 import repository.BookRepository;
+import service.book.BookService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -27,6 +28,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public boolean save(Book book) {
         return bookRepository.save(book);
+    }
+
+    public boolean update(Book book, Long stock){
+//        book.setStock(stock);
+        return bookRepository.update(book,stock);
     }
 
     @Override

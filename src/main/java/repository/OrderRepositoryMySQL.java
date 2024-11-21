@@ -21,7 +21,7 @@ public class OrderRepositoryMySQL implements OrderRespository{
         String newSql = "INSERT INTO orders VALUES(null,?,?);";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(newSql);
-            preparedStatement.setLong(1, order.getQuantity());
+            preparedStatement.setLong(1, order.getStock());
             preparedStatement.setFloat(2,order.getPrice());
 
             preparedStatement.executeUpdate(newSql);
@@ -103,7 +103,7 @@ public class OrderRepositoryMySQL implements OrderRespository{
         Order order=new Order();
         order.setId(resultSet.getLong("id"));
 //        order.setBookId(resultSet.getLong("bookId"));
-        order.setQuantity(resultSet.getLong("quantity"));
+        order.setStock(resultSet.getLong("stock"));
         order.setPrice(resultSet.getFloat("price"));
         return order;
     }

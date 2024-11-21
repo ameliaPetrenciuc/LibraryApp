@@ -1,4 +1,4 @@
-package service;
+package service.book;
 
 import model.Book;
 
@@ -9,6 +9,7 @@ public interface BookService {
     Book findById(Long id);
     boolean save(Book book);
     boolean delete(Book book);
+    boolean update(Book book, Long stock);
     int getAgeOfBook(Long id);
 
 }

@@ -48,7 +48,7 @@ public class BookDTO {
 
     public LongProperty stockProperty(){
         if (stock==null){
-            stock=new SimpleLongProperty(this, "stock");
+            stock = new SimpleLongProperty(this, "stock", 0L);
         }
         return stock;
     }
@@ -63,7 +63,7 @@ public class BookDTO {
 
     public FloatProperty priceProperty(){
         if (price==null){
-            price=new SimpleFloatProperty(this, "price");
+            price = new SimpleFloatProperty(this, "price", 0.0f);
         }
         return price;
     }

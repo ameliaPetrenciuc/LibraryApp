@@ -11,10 +11,12 @@ import java.util.stream.Collectors;
 
 public class BookMapper {
     public static BookDTO convertBookToBookDTO(Book book){
-        return new BookDTOBuilder().setTitle(book.getTitle())
+        return new BookDTOBuilder()
+
+                .setTitle(book.getTitle())
                                     .setAuthor(book.getAuthor())
-//                                    .setPrice(book.getPrice())
-//                                   .setStock(book.getStock())
+                                    .setPrice(book.getPrice() != null ? book.getPrice() : 0.0f)
+                                    .setStock(book.getStock() != null ? book.getStock() : 0L)
                                     .build();
     }
 
@@ -22,8 +24,8 @@ public class BookMapper {
         return new BookBuilder().setTitle(bookDTO.getTitle())
                                 .setAuthor(bookDTO.getAuthor())
                                 .setPublishedDate(LocalDate.of(2010,1,1))
-//                                .setPrice(bookDTO.getPrice())
-//                                .setStock(bookDTO.getStock())
+                                .setPrice(bookDTO.getPrice() != null ? bookDTO.getPrice() : 0.0f)
+                                .setStock(bookDTO.getStock() != null ? bookDTO.getStock() : 0L)
                                 .build();
     }
 

@@ -3,7 +3,7 @@ package model;
 public class Order {
     private Long id;
 //    private Long bookId;
-    private Long quantity;
+    private Long stock;
     private Float price;
 
     public Long getId() {
@@ -22,12 +22,12 @@ public class Order {
 //        this.bookId = bookId;
 //    }
 
-    public Long getQuantity() {
-        return quantity;
+    public Long getStock() {
+        return stock;
     }
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
+    public void setStock(Long quantity) {
+        this.stock = quantity;
     }
 
     public Float getPrice() {
@@ -40,6 +40,6 @@ public class Order {
 
     public String toString(){
         return "Order: Id: "+ id +
-                "Quantity: "+ quantity +" Price: "+ price;
+                "Quantity: "+ stock +" Price: "+ price;
     }
 }
