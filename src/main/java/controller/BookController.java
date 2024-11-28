@@ -3,18 +3,24 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import mapper.BookMapper;
+import model.Order;
 import service.book.BookService;
+import service.order.OrderService;
 import view.BookView;
 import view.model.BookDTO;
 import view.model.BookDTOBuilder;
 
+import java.time.LocalDateTime;
+
 public class BookController {
     private final BookView bookView;
     private final BookService bookService;
+    private final OrderService orderService;
 
-    public BookController(BookView bookView, BookService bookService){
+    public BookController(BookView bookView, BookService bookService,OrderService orderService){
         this.bookView=bookView;
         this.bookService=bookService;
+        this.orderService=orderService;
 
         this.bookView.addSaveButtonListener(new SaveButtonListener());
         this.bookView.addDeleteButtonListener(new DeleteButtonListener());
@@ -89,11 +95,25 @@ public class BookController {
                 if(updated){
                     bookDTO.setStock(newStock);
                     bookView.getBookTableView().refresh();
-                    bookView.addDisplayAlertMessage("Sell Successful", "Stock Updated", "The sale was successful, and the stock has been updated.");
-                }else{
+
+                    Order order = new Order();
+                    order.setUserId(1L); // Poți adăuga logica pentru a obține ID-ul utilizatorului curent
+                    order.setTitle(bookDTO.getTitle());
+                    order.setAuthor(bookDTO.getAuthor());
+                    order.setQuantity((int) quantity);
+                    order.setSaleDateTime(LocalDateTime.now()); // Momentul actual
+
+                    boolean orderSaved=orderService.save(order);
+
+                    if (orderSaved) {
+                        bookView.addDisplayAlertMessage("Sell Successful", "Order Created", "The sale was successful, and the order has been saved.");
+                    } else {
+                        bookView.addDisplayAlertMessage("Sell Error", "Order Error", "The sale was successful, but the order could not be saved.");
+                    }
+                } else {
                     bookView.addDisplayAlertMessage("Sell Error", "Database Error", "Could not update stock in the database.");
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 bookView.addDisplayAlertMessage("Sell Error", "Invalid Input", "Please enter a valid quantity.");
             }
         }

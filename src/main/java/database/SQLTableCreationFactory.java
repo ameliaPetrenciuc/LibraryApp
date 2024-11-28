@@ -1,11 +1,6 @@
 package database;
 
-import static database.Constants.Tables.BOOK;
-import static database.Constants.Tables.RIGHT;
-import static database.Constants.Tables.ROLE;
-import static database.Constants.Tables.ROLE_RIGHT;
-import static database.Constants.Tables.USER;
-import static database.Constants.Tables.USER_ROLE;
+import static database.Constants.Tables.*;
 
 public class SQLTableCreationFactory {
 
@@ -13,9 +8,11 @@ public class SQLTableCreationFactory {
         return switch (table) {
             case BOOK -> "CREATE TABLE IF NOT EXISTS book (" +
                     "  id int(11) NOT NULL AUTO_INCREMENT," +
-                    "  author varchar(500) NOT NULL," +
                     "  title varchar(500) NOT NULL," +
+                    "  author varchar(500) NOT NULL," +
                     "  publishedDate datetime DEFAULT NULL," +
+                    " price FLOAT DEFAULT 0, " +
+                    " stock BIGINT DEFAULT 0, " +
                     "  PRIMARY KEY (id)," +
                     "  UNIQUE KEY id_UNIQUE (id)" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;";
@@ -56,7 +53,7 @@ public class SQLTableCreationFactory {
                     "    REFERENCES `right` (id)" +
                     "    ON DELETE CASCADE" +
                     "    ON UPDATE CASCADE);";
-            case USER_ROLE -> "\tCREATE TABLE IF NOT EXISTS user_role (" +
+            case USER_ROLE -> " CREATE TABLE IF NOT EXISTS user_role (" +
                     "  id INT NOT NULL AUTO_INCREMENT," +
                     "  user_id INT NOT NULL," +
                     "  role_id INT NOT NULL," +
@@ -74,6 +71,26 @@ public class SQLTableCreationFactory {
                     "    REFERENCES role (id)" +
                     "    ON DELETE CASCADE" +
                     "    ON UPDATE CASCADE);";
+            case ORDERS -> "\tCREATE TABLE IF NOT EXISTS `orders` (" +
+                    "  id BIGINT NOT NULL AUTO_INCREMENT," +
+                    "  user_id INT NOT NULL," +
+                    " author VARCHAR(255) NOT NULL,"+
+                    " title VARCHAR(255) NOT NULL,"+
+                    " quantity INT NOT NULL,"+
+                    " sale_date DATE NOT NULL,"+
+                    "PRIMARY KEY (id),"+
+                    "  UNIQUE KEY id_UNIQUE (id)," +
+                    "  CONSTRAINT user_fkid_order" +
+                    "    FOREIGN KEY (user_id)" +
+                    "    REFERENCES user (id)" +
+                    "    ON DELETE CASCADE" +
+                    "    ON UPDATE CASCADE" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;";
+//                    "   CONSTRAINT completedByEmployee_fkid" +
+//                    "    FOREIGN KEY (completedByEmployee_id)" +
+//                    "    REFERENCES user (id)" +
+//                    "    ON DELETE CASCADE" +
+//                    "    ON UPDATE CASCADE);";
             default -> "";
         };
     }

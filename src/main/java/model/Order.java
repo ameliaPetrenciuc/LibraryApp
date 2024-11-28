@@ -1,10 +1,19 @@
 package model;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 //pt a crea un nou tabel
 public class Order {
     private Long id;
 //    private Long bookId;
-    private Long stock;
-    private Float price;
+    private String author;
+    private String title;
+    private LocalDateTime saleDateTime;
+    private Long userId;
+    private int quantity;
+//    private Long stock;
+//    private Float price;
 
     public Long getId() {
         return id;
@@ -14,32 +23,48 @@ public class Order {
         this.id = id;
     }
 
-//    public Long getBookId() {
-//        return bookId;
-//    }
-//
-//    public void setBookId(Long bookId) {
-//        this.bookId = bookId;
-//    }
-
-    public Long getStock() {
-        return stock;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setStock(Long quantity) {
-        this.stock = quantity;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public Float getPrice() {
-        return price;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String toString(){
-        return "Order: Id: "+ id +
-                "Quantity: "+ stock +" Price: "+ price;
+    public LocalDateTime getSaleDateTime() {
+        return saleDateTime;
+    }
+
+    public void setSaleDateTime(LocalDateTime saleDateTime) {
+        this.saleDateTime = saleDateTime;
+    }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
+
+//    public String toString(){
+//        return "Order: Id: "+ id +
+//                "Quantity: "+ stock +" Price: "+ price;
+//    }
+//}

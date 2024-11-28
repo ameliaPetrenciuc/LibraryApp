@@ -11,7 +11,5 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         ComponentFactory.getInstance(false, primaryStage);//false pt ca vrem baza de data libray, nu library test
-
-
     }
 }

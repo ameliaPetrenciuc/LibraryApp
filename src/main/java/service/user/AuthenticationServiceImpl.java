@@ -4,6 +4,8 @@ import model.User;
 import model.builder.UserBuilder;
 //import model.validator.Notification;
 //import model.validator.UserValidator;
+import model.validation.Notification;
+import model.validation.UserValidator;
 import repository.security.RightsRolesRepository;
 import repository.user.UserRepository;
 
@@ -56,21 +58,34 @@ public class AuthenticationServiceImpl implements AuthentificationService {
 //    }
 
     @Override
-    public boolean register(String username, String password) {
-        String encodePassword=hashPassword(password);
+    public Notification<Boolean> register(String username, String password) {
 
         Role customerRole=rightsRolesRepository.findRoleByTitle(CUSTOMER);
 
         User user=new UserBuilder()
                 .setUsername(username)
-                .setPassword(encodePassword)
+                .setPassword(password)
                 .setRoles(Collections.singletonList(customerRole))
                 .build();
-        return userRepository.save(user);
+
+        UserValidator userValidator=new UserValidator(user);
+        boolean userValid=userValidator.validate();
+        Notification<Boolean> userRegisterNotification=new Notification<>();
+
+        if(!userValid || userRepository.existsByUsername(username)){
+            userValidator.getErrors().forEach(userRegisterNotification::addError);
+            userRegisterNotification.addError("Username already exists!");
+            userRegisterNotification.setResult(Boolean.FALSE);
+
+        }else{
+            user.setPassword(hashPassword(password));
+            userRegisterNotification=userRepository.save(user);
+        }
+        return userRegisterNotification;
     }
 
     @Override
-    public User login(String username, String password) {
+    public Notification<User> login(String username, String password) {
         return userRepository.findByUsernameAndPassword(username,hashPassword(password));
     }
 

@@ -42,6 +42,8 @@ public class Bootstrap {
                     "DROP TABLE `right`;",
                     "TRUNCATE `user_role`;",
                     "DROP TABLE `user_role`;",
+                    "TRUNCATE `orders`;",
+                    "DROP TABLE `orders`;",
                     "TRUNCATE `role`;",
                     "DROP TABLE  `book`, `role`, `user`;"
             };
@@ -73,6 +75,7 @@ public class Bootstrap {
             for (String table : Constants.Tables.ORDERED_TABLES_FOR_CREATION) {
                 String createTableSQL = sqlTableCreationFactory.getCreateSQLForTable(table);
                 statement.execute(createTableSQL);
+                System.out.println(createTableSQL);
             }
         }
 
