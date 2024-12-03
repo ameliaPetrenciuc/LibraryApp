@@ -15,7 +15,7 @@ public class Notification<T> {
         this.errors.add(error);
     }
 
-    public  boolean hasError(){
+    public  boolean hasErrors(){
         return !this.errors.isEmpty();
     }
 
@@ -24,7 +24,7 @@ public class Notification<T> {
     }
 
     public T getResult(){
-        if(hasError()){
+        if(hasErrors()){
             throw new ResultFetchException(errors);
         }
         return result;

@@ -73,9 +73,9 @@ public class SQLTableCreationFactory {
                     "    ON UPDATE CASCADE);";
             case ORDERS -> "\tCREATE TABLE IF NOT EXISTS `orders` (" +
                     "  id BIGINT NOT NULL AUTO_INCREMENT," +
-                    "  user_id INT NOT NULL," +
-                    " author VARCHAR(255) NOT NULL,"+
+                    "  user_id INT," +
                     " title VARCHAR(255) NOT NULL,"+
+                    " author VARCHAR(255) NOT NULL,"+
                     " quantity INT NOT NULL,"+
                     " sale_date DATE NOT NULL,"+
                     "PRIMARY KEY (id),"+

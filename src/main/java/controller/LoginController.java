@@ -1,27 +1,33 @@
 package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import launcher.ComponentFactory;
+import javafx.stage.Stage;
+import launcher.AdminComponentFactory;
+import launcher.CustomerComponentFactory;
 import launcher.EmployeeComponentFactory;
+import launcher.LoginComponentFactory;
+import model.Role;
 import model.User;
 import model.validation.Notification;
 import model.validation.UserValidator;
 import service.user.AuthentificationService;
+import view.AdminView;
 import view.LoginView;
 
 import java.util.EventListener;
 import java.util.List;
 
+import static database.Constants.Roles.*;
+
 public class LoginController {
 
     private final LoginView loginView;
-    private final AuthentificationService authenticationService;
+    private final AuthentificationService authentificationService;
 
 
-
-    public LoginController(LoginView loginView, AuthentificationService authenticationService) {
+    public LoginController(LoginView loginView, AuthentificationService authentificationService) {
         this.loginView = loginView;
-        this.authenticationService = authenticationService;
+        this.authentificationService = authentificationService;
 
         this.loginView.addLoginButtonListener(new LoginButtonListener());
         this.loginView.addRegisterButtonListener(new RegisterButtonListener());
@@ -34,31 +40,42 @@ public class LoginController {
             String username = loginView.getUsername();
             String password = loginView.getPassword();
 
-            Notification<User> loginNotification = authenticationService.login(username, password);
-
-            if (loginNotification.hasError()){
+            Notification<User> loginNotification = authentificationService.login(username, password);
+            if (loginNotification.hasErrors()) {
                 loginView.setActionTargetText(loginNotification.getFormattedErrors());
-            }else{
+            } else {
+                User loggedInUser = loginNotification.getResult(); // Obține utilizatorul logat
                 loginView.setActionTargetText("LogIn Successfull");
-                EmployeeComponentFactory.getInstance(ComponentFactory.getComponentsForTests(),ComponentFactory.getStage());
+                // Verifică rolul utilizatorului
+                for (Role r : loginNotification.getResult().getRoles()) {
+                    if (r.getRole().equals(ADMINISTRATOR)) {
+                        //new AdminComponentFactory(componentFactory, loginView.getStage(), loginNotification);
+                        AdminComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loginNotification);
+                    } else if (r.getRole().equals(EMPLOYEE)) {
+                        EmployeeComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loggedInUser, loginNotification);
+                    } else if (r.getRole().equals(CUSTOMER)) {
+                        CustomerComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loggedInUser, loginNotification);
+                    }
+                }
             }
         }
     }
 
-    private class RegisterButtonListener implements EventHandler<ActionEvent> {
+        private class RegisterButtonListener implements EventHandler<ActionEvent> {
 
-        @Override
-        public void handle(ActionEvent event) {
-            String username = loginView.getUsername();
-            String password = loginView.getPassword();
+            @Override
+            public void handle(ActionEvent event) {
+                String username = loginView.getUsername();
+                String password = loginView.getPassword();
 
-            Notification<Boolean> regiterNotification= authenticationService.register(username,password);
+                Notification<Boolean> regiterNotification = authentificationService.register(username, password);
 
-            if (regiterNotification.hasError()) {
-                loginView.setActionTargetText(regiterNotification.getFormattedErrors());
-            }else{
-                loginView.setActionTargetText("Register successful");
+                if (regiterNotification.hasErrors()) {
+                    loginView.setActionTargetText(regiterNotification.getFormattedErrors());
+                } else {
+                    loginView.setActionTargetText("Register successful");
+                }
             }
         }
     }
-}
+

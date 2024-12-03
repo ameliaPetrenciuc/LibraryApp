@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 //pt a crea un nou tabel
 public class Order {
     private Long id;
-//    private Long bookId;
     private String author;
     private String title;
     private LocalDateTime saleDateTime;
-    private Long userId;
+    private Long customerId;
+    private Long employeeId;
     private int quantity;
 //    private Long stock;
 //    private Float price;
@@ -46,13 +46,6 @@ public class Order {
     public void setSaleDateTime(LocalDateTime saleDateTime) {
         this.saleDateTime = saleDateTime;
     }
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -60,6 +53,20 @@ public class Order {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+    public Long getEmployeeId(){
+        return this.employeeId;
+    }
+    public void setEmployeeId(Long employeeId){
+        this.employeeId = employeeId;
     }
 }
 

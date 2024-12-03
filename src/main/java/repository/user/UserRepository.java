@@ -11,5 +11,6 @@ public interface UserRepository {
     Notification<User> findByUsernameAndPassword(String username, String password);
     Notification<Boolean> save(User user);
     void removeAll();
+    boolean deleteUserById(Long id);
     boolean existsByUsername(String username);
 }

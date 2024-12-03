@@ -1,6 +1,10 @@
 package database;
 import repository.security.RightsRolesRepository;
 import repository.security.RightsRolesRepositoryMySQL;
+import repository.user.UserRepository;
+import repository.user.UserRepositoryMySQL;
+import service.user.AuthenticationServiceImpl;
+import service.user.AuthentificationService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static database.Constants.Rights.RIGHTS;
-import static database.Constants.Roles.ROLES;
+import static database.Constants.Roles.*;
 import static database.Constants.Schemas.SCHEMAS;
 import static database.Constants.getRolesRights;
 
@@ -94,6 +98,7 @@ public class Bootstrap {
             bootstrapRoleRight();
             bootstrapUserRoles();
         }
+        bootstrapUsers();
     }
 
     private static void bootstrapRoles() throws SQLException {
@@ -119,6 +124,20 @@ public class Bootstrap {
 
                 rightsRolesRepository.addRoleRight(roleId, rightId);
             }
+        }
+    }
+
+    private static void bootstrapUsers() throws SQLException{
+        for (String schema : SCHEMAS) {
+            System.out.println("Bootstrapping users in " + schema +" schema");
+
+            JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper(schema);
+
+            UserRepository userRepository=new UserRepositoryMySQL(connectionWrapper.getConnection(), rightsRolesRepository);
+
+            AuthentificationService authentificationService=new AuthenticationServiceImpl(userRepository,rightsRolesRepository);
+            authentificationService.register("ame.ame@gmail.com", "987654321!", ADMINISTRATOR);
+            authentificationService.register("daria_oana@gmail.com", "123456789!", CUSTOMER);
         }
     }
 

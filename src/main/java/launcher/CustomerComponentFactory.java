@@ -1,5 +1,6 @@
 package launcher;
 
+import controller.CustomerController;
 import controller.EmployeeController;
 import database.DatabaseConnectionFactory;
 import javafx.stage.Stage;
@@ -20,29 +21,29 @@ import service.book.BookService;
 import service.book.BookServiceImpl;
 import service.order.OrderService;
 import service.order.OrderServiceImpl;
+import view.CustomerView;
 import view.EmployeeView;
 import view.model.BookDTO;
 
 import java.sql.Connection;
 import java.util.List;
 
-public class EmployeeComponentFactory {
+public class CustomerComponentFactory {
 
-    private final EmployeeView employeeView;
-    private final EmployeeController employeeController;
+    private final CustomerView customerView;
+    private final CustomerController customerController;
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
     private final BookService bookService;
     private final OrderService orderService;
-    private static EmployeeComponentFactory instance;
     private static Boolean componentsForTest;
     private static Stage stage;
     private static Notification<User> userNotification;
-    private static User id;
     private final RightsRolesRepository rightsRolesRepository;
     private final UserRepository userRepository;
+    private static CustomerComponentFactory instance;
 
-    public static EmployeeComponentFactory getInstance(Boolean aComponentsForTest, Stage primaryStage, User id, Notification<User> notification){
+    public static CustomerComponentFactory getInstance(Boolean aComponentsForTest, Stage primaryStage, User id, Notification<User> notification){
         if (instance == null) {
             synchronized (LoginComponentFactory.class) {
                 if (instance == null) {
@@ -50,14 +51,14 @@ public class EmployeeComponentFactory {
                     stage = primaryStage;
                     userNotification = notification;
                     id=id;
-                    instance = new EmployeeComponentFactory(componentsForTest, stage, id, userNotification);
+                    instance = new CustomerComponentFactory(componentsForTest, stage, id, userNotification);
                 }
             }
         }
         return instance;
     }
 
-    private EmployeeComponentFactory(Boolean componentsForTest, Stage primaryStage, User userId, Notification<User> user){
+    public CustomerComponentFactory(Boolean componentsForTest, Stage primaryStage, User userId, Notification<User> user){
         Connection connection = DatabaseConnectionFactory.getConnectionWrapper(componentsForTest).getConnection();
         this.rightsRolesRepository=new RightsRolesRepositoryMySQL(connection);
         this.userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
@@ -67,16 +68,16 @@ public class EmployeeComponentFactory {
         this.orderService = new OrderServiceImpl(orderRepository);
 
         List<BookDTO> bookDTOs = BookMapper.convertBookListToBookDTOList(this.bookService.findAll());
-        this.employeeView = new EmployeeView(stage, bookDTOs);
-        this.employeeController = new EmployeeController(employeeView, bookService, orderService, userId);
+        this.customerView = new CustomerView(stage, bookDTOs);
+        this.customerController = new CustomerController(customerView, bookService, orderService, userId);
     }
 
-    public EmployeeView getBookView() {
-        return employeeView;
+    public CustomerView getBookView() {
+        return customerView;
     }
 
-    public EmployeeController getBookController() {
-        return employeeController;
+    public CustomerController getBookController() {
+        return customerController;
     }
 
     public BookRepository getBookRepository() {
@@ -87,7 +88,7 @@ public class EmployeeComponentFactory {
         return bookService;
     }
 
-    public static EmployeeComponentFactory getInstance() {
+    public static CustomerComponentFactory getInstance() {
         return instance;
     }
 }

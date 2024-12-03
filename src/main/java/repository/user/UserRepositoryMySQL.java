@@ -33,22 +33,40 @@ public class UserRepositoryMySQL implements UserRepository {
 
     @Override
     public List<User> findAll() {
+        String sql = "SELECT * from user";
 
-        String sql="SELECT * FROM user;";
+        List<User> users = new ArrayList<>();
 
-        List<User> users=new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 users.add(getUserFromResultSet(resultSet));
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return users;
     }
+
+//    public List<User> findAll() {
+//
+//        String sql="SELECT * FROM user;";
+//
+//        List<User> users=new ArrayList<>();
+//        try {
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//
+//            while(resultSet.next()){
+//                users.add(getUserFromResultSet(resultSet));
+//            }
+//        }catch(SQLException e){
+//            e.printStackTrace();
+//        }
+//        return users;
+//    }
 
     @Override
     public Notification<User> findByUsernameAndPassword(String username, String password) {
@@ -65,6 +83,7 @@ public class UserRepositoryMySQL implements UserRepository {
             ResultSet userResultSet = preparedStatement.executeQuery();
             if(userResultSet.next()){
                 User user = new UserBuilder()
+                        .setId(userResultSet.getLong("id"))
                         .setUsername(userResultSet.getString("username"))
                         .setPassword(userResultSet.getString("password"))
                         .setRoles(rightsRolesRepository.findRolesForUser(userResultSet.getLong("id")))
@@ -108,6 +127,22 @@ public class UserRepositoryMySQL implements UserRepository {
             saveNotification.addError("Database Error");
         }
         return saveNotification;
+    }
+
+    @Override
+    public boolean deleteUserById(Long id) {
+        try {
+            String deleteUserSql = "DELETE FROM user WHERE id = ?";
+            try (PreparedStatement deleteUserStatement = connection.prepareStatement(deleteUserSql)) {
+                deleteUserStatement.setLong(1, id);
+                int affectedRows = deleteUserStatement.executeUpdate();
+
+                return affectedRows > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

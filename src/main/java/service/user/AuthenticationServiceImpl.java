@@ -14,11 +14,13 @@ import java.security.MessageDigest;
 import java.util.Collections;
 
 import static database.Constants.Roles.CUSTOMER;
+import static database.Constants.Roles.EMPLOYEE;
 
 public class AuthenticationServiceImpl implements AuthentificationService {
 
     private final UserRepository userRepository;
     private final RightsRolesRepository rightsRolesRepository;
+    private User loggedInUser;
 
     public AuthenticationServiceImpl(UserRepository userRepository, RightsRolesRepository rightsRolesRepository) {
         this.userRepository = userRepository;
@@ -60,8 +62,36 @@ public class AuthenticationServiceImpl implements AuthentificationService {
     @Override
     public Notification<Boolean> register(String username, String password) {
 
-        Role customerRole=rightsRolesRepository.findRoleByTitle(CUSTOMER);
+        Role customerRole=rightsRolesRepository.findRoleByTitle(EMPLOYEE);
 
+        User user=new UserBuilder()
+                .setUsername(username)
+                .setPassword(password)
+                .setRoles(Collections.singletonList(customerRole))
+                .build();
+
+        UserValidator userValidator=new UserValidator(user);
+        boolean userValid=userValidator.validate();
+        Notification<Boolean> userRegisterNotification=new Notification<>();
+
+        if(!userValid || userRepository.existsByUsername(username)){
+            userValidator.getErrors().forEach(userRegisterNotification::addError);
+            userRegisterNotification.addError("Username already exists!");
+            userRegisterNotification.setResult(Boolean.FALSE);
+
+        }else{
+            user.setPassword(hashPassword(password));
+            userRegisterNotification=userRepository.save(user);
+        }
+        return userRegisterNotification;
+    }
+
+    public Notification<Boolean> register(String username, String password , String role) {
+
+        Role customerRole = rightsRolesRepository.findRoleByTitle(role);
+        if (customerRole == null) {
+            throw new IllegalArgumentException("Role not found: " + role);
+        }
         User user=new UserBuilder()
                 .setUsername(username)
                 .setPassword(password)
@@ -113,5 +143,12 @@ public class AuthenticationServiceImpl implements AuthentificationService {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+    @Override
+    public Long getLoggedInCustomerId() {
+        if (loggedInUser != null) {
+            return loggedInUser.getId();
+        }
+        return null;
     }
 }

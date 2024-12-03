@@ -12,6 +12,9 @@ public class Role {
         this.role = role;
         this.rights = rights;
     }
+    public Role(){
+
+    }
 
     public Long getId() {
         return id;

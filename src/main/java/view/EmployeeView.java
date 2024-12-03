@@ -18,7 +18,7 @@ import view.model.BookDTO;
 
 import java.util.List;
 
-public class BookView {
+public class EmployeeView {
     private TableView bookTableView;
     private final ObservableList<BookDTO> booksObservableList;
     private TextField authorTextField;
@@ -35,7 +35,7 @@ public class BookView {
     private Button deleteButton;
     private Button sellButton;
 
-    public BookView(Stage primaryStage, List<BookDTO> bookDTOS){
+    public EmployeeView(Stage primaryStage, List<BookDTO> bookDTO){
         primaryStage.setTitle("Library");
 
         GridPane gridPane=new GridPane();
@@ -44,7 +44,7 @@ public class BookView {
         Scene scene=new Scene(gridPane, 720,480);
         primaryStage.setScene(scene);
 
-        booksObservableList= FXCollections.observableArrayList(bookDTOS);
+        booksObservableList= FXCollections.observableArrayList(bookDTO);
         initTableView(gridPane);
         initSaveOptions(gridPane);
         primaryStage.show();

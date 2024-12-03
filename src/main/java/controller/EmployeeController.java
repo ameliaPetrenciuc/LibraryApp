@@ -4,23 +4,26 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import mapper.BookMapper;
 import model.Order;
+import model.User;
 import service.book.BookService;
 import service.order.OrderService;
-import view.BookView;
+import view.EmployeeView;
 import view.model.BookDTO;
 import view.model.BookDTOBuilder;
 
 import java.time.LocalDateTime;
 
-public class BookController {
-    private final BookView bookView;
+public class EmployeeController {
+    private final EmployeeView bookView;
     private final BookService bookService;
     private final OrderService orderService;
+    private User loggedInUser;
 
-    public BookController(BookView bookView, BookService bookService,OrderService orderService){
+    public EmployeeController(EmployeeView bookView, BookService bookService, OrderService orderService, User loggedInUser){
         this.bookView=bookView;
         this.bookService=bookService;
         this.orderService=orderService;
+        this.loggedInUser = loggedInUser;
 
         this.bookView.addSaveButtonListener(new SaveButtonListener());
         this.bookView.addDeleteButtonListener(new DeleteButtonListener());
@@ -96,8 +99,10 @@ public class BookController {
                     bookDTO.setStock(newStock);
                     bookView.getBookTableView().refresh();
 
+
                     Order order = new Order();
-                    order.setUserId(1L); // Poți adăuga logica pentru a obține ID-ul utilizatorului curent
+
+                    order.setEmployeeId(loggedInUser.getId()); // Poți adăuga logica pentru a obține ID-ul utilizatorului curent
                     order.setTitle(bookDTO.getTitle());
                     order.setAuthor(bookDTO.getAuthor());
                     order.setQuantity((int) quantity);
