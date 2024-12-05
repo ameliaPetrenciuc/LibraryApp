@@ -67,9 +67,4 @@ public class BookDTO {
         }
         return price;
     }
-
-
-
-
-
 }

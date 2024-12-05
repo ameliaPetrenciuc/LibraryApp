@@ -27,38 +27,6 @@ public class AuthenticationServiceImpl implements AuthentificationService {
         this.rightsRolesRepository = rightsRolesRepository;
     }
 
-   // @Override
-//    public Notification<Boolean> register(String username, String password) {
-//
-//        Role customerRole = rightsRolesRepository.findRoleByTitle(CUSTOMER);
-//
-//        User user = new UserBuilder()
-//                .setUsername(username)
-//                .setPassword(password)
-//                .setRoles(Collections.singletonList(customerRole))
-//                .build();
-//
-//        UserValidator userValidator = new UserValidator(user);
-//
-//        boolean userValid = userValidator.validate();
-//        Notification<Boolean> userRegisterNotification = new Notification<>();
-//
-//        if (!userValid){
-//            userValidator.getErrors().forEach(userRegisterNotification::addError);
-//            userRegisterNotification.setResult(Boolean.FALSE);
-//        } else {
-//            user.setPassword(hashPassword(password));
-//            userRegisterNotification.setResult(userRepository.save(user));
-//        }
-//
-//        return userRegisterNotification;
-//    }
-
-//    @Override
-//    public Notification<User> login(String username, String password) {
-//        return userRepository.findByUsernameAndPassword(username, hashPassword(password));
-//    }
-
     @Override
     public Notification<Boolean> register(String username, String password) {
 

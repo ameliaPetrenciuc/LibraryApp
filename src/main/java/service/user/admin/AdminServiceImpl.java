@@ -37,11 +37,6 @@ public class AdminServiceImpl implements AdminService{
         this.rightsRolesRepository=rightsRolesRepository;
     }
 
-//    @Override
-//    public Notification<Boolean> addUser(String username, String password, String role) {
-//        return authentificationService.register(username, password, role);
-//    }
-
     public Notification<Boolean> register(String username, String password) {
 
         Role customerRole=rightsRolesRepository.findRoleByTitle(EMPLOYEE);
@@ -143,7 +138,7 @@ public class AdminServiceImpl implements AdminService{
 
     }
 
-    public void generateOrderReport(List<Order> orders){
+    public boolean generateOrderReport(List<Order> orders){
         try{
 
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -192,9 +187,10 @@ public class AdminServiceImpl implements AdminService{
             }
             document.close();
             System.out.println("PDF report generated successfully: " +filePath);
-
+            return true;
         }catch (FileNotFoundException e){
             e.printStackTrace();
+            return false;
         }
     }
 

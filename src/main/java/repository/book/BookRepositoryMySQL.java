@@ -62,13 +62,8 @@ public class BookRepositoryMySQL implements BookRepository {
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setString(2, book.getAuthor());
             preparedStatement.setDate(3, Date.valueOf(book.getPublishedDate()));
-//            Long stock = book.getStock() != null ? book.getStock() : 0L;
             preparedStatement.setFloat(4, book.getPrice());
-//            Float price = book.getPrice() != null ? book.getPrice() : 0.0f;
             preparedStatement.setLong(5, book.getStock());
-
-
-//            preparedStatement.setFloat(5, book.getPrice());
 
             preparedStatement.executeUpdate();
 
@@ -93,11 +88,6 @@ public class BookRepositoryMySQL implements BookRepository {
         }
         return true;
     }
-
-//    @Override
-//    public boolean update(Book book, Long stock) {
-//        return false;
-//    }
 
     @Override
     public void removeAll() {

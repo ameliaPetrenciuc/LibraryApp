@@ -18,6 +18,7 @@ import model.Role;
 import model.User;
 import model.builder.UserBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminView {
@@ -28,6 +29,8 @@ public class AdminView {
     private Button createUserButton;
     private Button deleteUserButton;
     private Button pdfButton;
+    private Button backButton;
+    private Stage adminStage;
 
     public AdminView(Stage primaryStage) {
         primaryStage.setTitle("Admin Panel");
@@ -99,6 +102,9 @@ public class AdminView {
 
         pdfButton = new Button("Generate PDF");
         gridPane.add(pdfButton, 2, 4);
+
+        backButton = new Button("Back");
+        gridPane.add(backButton, 0, 7);
     }
 
     public void addCreateUserButtonListener(EventHandler<ActionEvent> listener) {
@@ -113,16 +119,8 @@ public class AdminView {
         pdfButton.setOnAction(listener);
     }
 
-//    public String getUsername() {
-//        return usernameTextField.getText();
-//    }
-//
-//    public String getPassword() {
-//        return passwordTextField.getText();
-//    }
-
-    public String getSelectedRole() {
-        return rolesBox.getValue();
+    public void addBackButtonListener(EventHandler<ActionEvent> listener) {
+        backButton.setOnAction(listener);
     }
 
     public TableView<User> getUserTableView() {
@@ -139,49 +137,29 @@ public class AdminView {
     }
 
     public void setListOfUsers(List<User> data) {
-        // Transformă lista într-o ObservableList
         ObservableList<User> observableUserList = FXCollections.observableList(data);
-
-        // Setează datele în tabelul utilizatorilor
         userTableView.setItems(observableUserList);
-
-        // Reîmprospătează tabelul pentru a reflecta noile date
         userTableView.refresh();
     }
 
     public User getNewEmployee() {
         String username = usernameTextField.getText();
         String password = passwordTextField.getText();
+        String selectedRole = rolesBox.getSelectionModel().getSelectedItem();
+        List<Role> roles = new ArrayList<>();
 
+        if (selectedRole != null) {
+            roles.add(new Role(selectedRole));
+        }
         return new UserBuilder()
                 .setUsername(username)
                 .setPassword(password)
+                .setRoles(roles)
                 .build();
     }
 
-//    public User getSelectedEmployee(List<User> data) {
-//        ObservableList<User> observableUserList = FXCollections.observableList(data);
-//        return observableUserList.getSelectionModel().getSelectedItem();
-//    }
-
-    public void setUsersInTable(ObservableList<User> users) {
-        userTableView.setItems(users);
-    }
-    public Long getRoleBox() {
-        String selectedRole = rolesBox.getSelectionModel().getSelectedItem();
-        if (selectedRole != null) {
-            switch (selectedRole) {
-                case "Administrator":
-                    return 1L;
-                case "Employee":
-                    return 2L;
-                case "Customer":
-                    return 3L;
-                default:
-                    return null;
-            }
-        }
-        return null;
+    public Stage getAdminStage() {
+        return adminStage;
     }
 
 }

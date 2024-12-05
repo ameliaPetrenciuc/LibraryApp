@@ -16,6 +16,11 @@ public class Role {
 
     }
 
+    public Role(String role) {
+        this.role = role;
+        this.rights = new ArrayList<>();
+    }
+
     public Long getId() {
         return id;
     }

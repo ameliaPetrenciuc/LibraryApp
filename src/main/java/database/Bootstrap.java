@@ -137,7 +137,6 @@ public class Bootstrap {
 
             AuthentificationService authentificationService=new AuthenticationServiceImpl(userRepository,rightsRolesRepository);
             authentificationService.register("ame.ame@gmail.com", "987654321!", ADMINISTRATOR);
-            authentificationService.register("daria_oana@gmail.com", "123456789!", CUSTOMER);
         }
     }
 

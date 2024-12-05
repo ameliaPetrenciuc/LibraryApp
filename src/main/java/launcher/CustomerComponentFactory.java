@@ -72,23 +72,4 @@ public class CustomerComponentFactory {
         this.customerController = new CustomerController(customerView, bookService, orderService, userId);
     }
 
-    public CustomerView getBookView() {
-        return customerView;
-    }
-
-    public CustomerController getBookController() {
-        return customerController;
-    }
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
-
-    public BookService getBookService() {
-        return bookService;
-    }
-
-    public static CustomerComponentFactory getInstance() {
-        return instance;
-    }
 }

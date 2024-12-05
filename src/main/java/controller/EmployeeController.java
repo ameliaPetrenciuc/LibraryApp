@@ -37,7 +37,6 @@ public class EmployeeController {
             String author=bookView.getAuthor();
             Float price=bookView.getPrice();
             Long stock=bookView.getStock();
-//            Long quantity= bookView.getQuantity();
 
             if(title.isEmpty()|| author.isEmpty()){
                 bookView.addDisplayAlertMessage("Save Error", "Problem of Author or Title field", "Can not have an empty Title or Author field");
@@ -123,7 +122,4 @@ public class EmployeeController {
             }
         }
     }
-
-
-
 }

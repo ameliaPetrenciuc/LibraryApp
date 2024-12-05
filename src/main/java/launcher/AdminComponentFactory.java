@@ -52,15 +52,14 @@ public class AdminComponentFactory {
 
     private AdminComponentFactory(Boolean componentsForTest, Stage primaryStage, Notification<User> notification) {
         Connection connection= DatabaseConnectionFactory.getConnectionWrapper(componentsForTest).getConnection();
-      //  RightsRolesRepository rightsRolesRepository = getRightsRolesRepository();
         this.rightsRolesRepository=new RightsRolesRepositoryMySQL(connection);
         this.userRepository = new UserRepositoryMySQL(connection, rightsRolesRepository);
         this.adminService = new AdminServiceImpl(userRepository,rightsRolesRepository);
         this.orderRepository=new OrderRepositoryMySQL(connection);
         this.orderService = new OrderServiceImpl(orderRepository);
 
-        this.adminView = new AdminView(stage);
-        this.adminController = new AdminController(adminView, adminService, userNotification, orderService);
+        this.adminView = new AdminView(primaryStage);
+        this.adminController = new AdminController(adminView, adminService, userNotification, orderService,primaryStage);
     }
 
     public static Boolean getComponentsForTest() {
@@ -71,7 +70,4 @@ public class AdminComponentFactory {
         return stage;
     }
 
-    public static Notification<User> getUserNotification() {
-        return userNotification;
-    }
 }

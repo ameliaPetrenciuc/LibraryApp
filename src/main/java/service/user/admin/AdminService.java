@@ -14,7 +14,7 @@ public interface AdminService {
     boolean existsByUsername(String username);
     Notification<User> findUser(Long id);
     void removeAll();
-    void generateOrderReport(List<Order> orders);
+    boolean generateOrderReport(List<Order> orders);
     Map<Long, String> getEmployeeIdToUsernameMap();
     Notification<Boolean> register(String username, String password);
     Notification<Boolean> register(String username, String password, String role);

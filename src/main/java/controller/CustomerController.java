@@ -24,11 +24,10 @@ public class CustomerController {
         this.orderService=orderService;
         this.loggedInUser=loggedInUser;
 
-        this.customerView.addBuyButtonListener(new SellButtonListener());
-
+        this.customerView.addBuyButtonListener(new BuyButtonListener());
     }
 
-    private class SellButtonListener implements EventHandler<ActionEvent>{
+    private class BuyButtonListener implements EventHandler<ActionEvent>{
         public void handle(ActionEvent event) {
             BookDTO bookDTO= (BookDTO) customerView.getBookTableView().getSelectionModel().getSelectedItem();
 
@@ -36,12 +35,12 @@ public class CustomerController {
                 long quantity=customerView.getQuantity();
 
                 if(quantity<=0){
-                    customerView.addDisplayAlertMessage("Sell Error", "Invalid Quantity", "Quantity must be greater than 0.");
+                    customerView.addDisplayAlertMessage("Buy Error", "Invalid Quantity", "Quantity must be greater than 0.");
                     return;
                 }
 
                 if(bookDTO.getStock()<quantity){
-                    customerView.addDisplayAlertMessage("Sell Error", "Insufficient Stock", "Not enough stock available for this sale.");
+                    customerView.addDisplayAlertMessage("Buy Error", "Insufficient Stock", "Not enough stock available for this sale.");
                     return;
                 }
 
@@ -52,7 +51,6 @@ public class CustomerController {
                 if(updated){
                     bookDTO.setStock(newStock);
                     customerView.getBookTableView().refresh();
-
 
                     Order order = new Order();
 
@@ -65,19 +63,16 @@ public class CustomerController {
                     boolean orderSaved=orderService.save(order);
 
                     if (orderSaved) {
-                        customerView.addDisplayAlertMessage("Sell Successful", "Order Created", "The sale was successful, and the order has been saved.");
+                        customerView.addDisplayAlertMessage("Buy Successful", "Order Created", "The sale was successful, and the order has been saved.");
                     } else {
-                        customerView.addDisplayAlertMessage("Sell Error", "Order Error", "The sale was successful, but the order could not be saved.");
+                        customerView.addDisplayAlertMessage("Buy Error", "Order Error", "The sale was successful, but the order could not be saved.");
                     }
                 } else {
-                    customerView.addDisplayAlertMessage("Sell Error", "Database Error", "Could not update stock in the database.");
+                    customerView.addDisplayAlertMessage("Buy Error", "Database Error", "Could not update stock in the database.");
                 }
             } catch (NumberFormatException e) {
-                customerView.addDisplayAlertMessage("Sell Error", "Invalid Input", "Please enter a valid quantity.");
+                customerView.addDisplayAlertMessage("Buy Error", "Invalid Input", "Please enter a valid quantity.");
             }
         }
     }
-
-
-
 }

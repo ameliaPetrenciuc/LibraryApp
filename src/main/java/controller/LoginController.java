@@ -1,7 +1,6 @@
 package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
 import launcher.AdminComponentFactory;
 import launcher.CustomerComponentFactory;
 import launcher.EmployeeComponentFactory;
@@ -9,14 +8,8 @@ import launcher.LoginComponentFactory;
 import model.Role;
 import model.User;
 import model.validation.Notification;
-import model.validation.UserValidator;
 import service.user.AuthentificationService;
-import view.AdminView;
 import view.LoginView;
-
-import java.util.EventListener;
-import java.util.List;
-
 import static database.Constants.Roles.*;
 
 public class LoginController {
@@ -49,7 +42,6 @@ public class LoginController {
                 // Verifică rolul utilizatorului
                 for (Role r : loginNotification.getResult().getRoles()) {
                     if (r.getRole().equals(ADMINISTRATOR)) {
-                        //new AdminComponentFactory(componentFactory, loginView.getStage(), loginNotification);
                         AdminComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loginNotification);
                     } else if (r.getRole().equals(EMPLOYEE)) {
                         EmployeeComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loggedInUser, loginNotification);

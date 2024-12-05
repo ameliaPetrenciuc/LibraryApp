@@ -11,8 +11,6 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-       LoginComponentFactory componentFactory=LoginComponentFactory.getInstance(false, primaryStage);//false pt ca vrem baza de data libray, nu library test
-       // new LoginComponentFactory(componentFactory, primaryStage);
-        //LoginComponentFactory.getInstance(false,primaryStage);
+        LoginComponentFactory.getInstance(false, primaryStage);//false pt ca vrem baza de data library, nu library test
     }
 }

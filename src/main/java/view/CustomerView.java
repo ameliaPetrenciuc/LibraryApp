@@ -97,14 +97,6 @@ public class CustomerView {
         return Long.valueOf(quantityTextField.getText());
     }
 
-    public void addBookToObservableList(BookDTO bookDTO){
-        this.booksObservableList.add(bookDTO);
-    }
-
-    public void removeBookFromObservableList(BookDTO bookDTO){
-        this.booksObservableList.remove(bookDTO);
-    }
-
     public TableView getBookTableView(){
         return bookTableView;
     }

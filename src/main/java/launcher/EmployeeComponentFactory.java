@@ -70,24 +70,4 @@ public class EmployeeComponentFactory {
         this.employeeView = new EmployeeView(stage, bookDTOs);
         this.employeeController = new EmployeeController(employeeView, bookService, orderService, userId);
     }
-
-    public EmployeeView getBookView() {
-        return employeeView;
-    }
-
-    public EmployeeController getBookController() {
-        return employeeController;
-    }
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
-
-    public BookService getBookService() {
-        return bookService;
-    }
-
-    public static EmployeeComponentFactory getInstance() {
-        return instance;
-    }
 }

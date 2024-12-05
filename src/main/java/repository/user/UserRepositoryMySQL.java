@@ -50,24 +50,6 @@ public class UserRepositoryMySQL implements UserRepository {
         return users;
     }
 
-//    public List<User> findAll() {
-//
-//        String sql="SELECT * FROM user;";
-//
-//        List<User> users=new ArrayList<>();
-//        try {
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery(sql);
-//
-//            while(resultSet.next()){
-//                users.add(getUserFromResultSet(resultSet));
-//            }
-//        }catch(SQLException e){
-//            e.printStackTrace();
-//        }
-//        return users;
-//    }
-
     @Override
     public Notification<User> findByUsernameAndPassword(String username, String password) {
 

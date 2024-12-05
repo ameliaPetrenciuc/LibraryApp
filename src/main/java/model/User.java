@@ -44,13 +44,6 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    public Role getRole() {
-        return roles.get(0);
-    }
-    public void addRole(Long roleId) {
-        Role role = new Role(roleId, ROLES[(roleId.intValue()-1)], null);
-        roles.add(role);
-    }
 
     @Override
     public String toString(){
