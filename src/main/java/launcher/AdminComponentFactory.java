@@ -34,7 +34,7 @@ public class AdminComponentFactory {
     private static Notification<User> userNotification;
 
 
-    private static AdminComponentFactory instance;
+    private static volatile AdminComponentFactory instance;
 
     public static AdminComponentFactory getInstance(Boolean aComponentsForTest, Stage primaryStage, Notification<User> notification) {
         if(instance==null){

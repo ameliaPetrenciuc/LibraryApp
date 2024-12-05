@@ -98,7 +98,7 @@ public class Bootstrap {
             bootstrapRoleRight();
             bootstrapUserRoles();
         }
-        bootstrapUsers();
+        //bootstrapUsers();
     }
 
     private static void bootstrapRoles() throws SQLException {
@@ -127,18 +127,18 @@ public class Bootstrap {
         }
     }
 
-    private static void bootstrapUsers() throws SQLException{
-        for (String schema : SCHEMAS) {
-            System.out.println("Bootstrapping users in " + schema +" schema");
-
-            JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper(schema);
-
-            UserRepository userRepository=new UserRepositoryMySQL(connectionWrapper.getConnection(), rightsRolesRepository);
-
-            AuthentificationService authentificationService=new AuthenticationServiceImpl(userRepository,rightsRolesRepository);
-            authentificationService.register("ame.ame@gmail.com", "987654321!", ADMINISTRATOR);
-        }
-    }
+//    private static void bootstrapUsers() throws SQLException{
+//        for (String schema : SCHEMAS) {
+//            System.out.println("Bootstrapping users in " + schema +" schema");
+//
+//            JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper(schema);
+//
+//            UserRepository userRepository=new UserRepositoryMySQL(connectionWrapper.getConnection(), rightsRolesRepository);
+//
+//            AuthentificationService authentificationService=new AuthenticationServiceImpl(userRepository,rightsRolesRepository);
+//            authentificationService.register("ame.ame@gmail.com", "987654321!", ADMINISTRATOR);
+//        }
+//    }
 
     private static void bootstrapUserRoles() throws SQLException {
 

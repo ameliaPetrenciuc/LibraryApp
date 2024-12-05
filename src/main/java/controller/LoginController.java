@@ -37,9 +37,9 @@ public class LoginController {
             if (loginNotification.hasErrors()) {
                 loginView.setActionTargetText(loginNotification.getFormattedErrors());
             } else {
-                User loggedInUser = loginNotification.getResult(); // Obține utilizatorul logat
+                User loggedInUser = loginNotification.getResult();
                 loginView.setActionTargetText("LogIn Successfull");
-                // Verifică rolul utilizatorului
+
                 for (Role r : loginNotification.getResult().getRoles()) {
                     if (r.getRole().equals(ADMINISTRATOR)) {
                         AdminComponentFactory.getInstance(LoginComponentFactory.getComponentsForTests(), LoginComponentFactory.getStage(), loginNotification);

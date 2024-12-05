@@ -34,7 +34,7 @@ public class EmployeeComponentFactory {
     private final OrderRepository orderRepository;
     private final BookService bookService;
     private final OrderService orderService;
-    private static EmployeeComponentFactory instance;
+    private static volatile EmployeeComponentFactory instance;
     private static Boolean componentsForTest;
     private static Stage stage;
     private static Notification<User> userNotification;

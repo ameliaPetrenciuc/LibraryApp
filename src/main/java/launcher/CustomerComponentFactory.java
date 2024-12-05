@@ -41,7 +41,7 @@ public class CustomerComponentFactory {
     private static Notification<User> userNotification;
     private final RightsRolesRepository rightsRolesRepository;
     private final UserRepository userRepository;
-    private static CustomerComponentFactory instance;
+    private static volatile CustomerComponentFactory instance;
 
     public static CustomerComponentFactory getInstance(Boolean aComponentsForTest, Stage primaryStage, User id, Notification<User> notification){
         if (instance == null) {
