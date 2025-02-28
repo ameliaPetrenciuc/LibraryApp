@@ -1,10 +1,10 @@
-Bookstore
+##Bookstore
 
-Overview
+##Overview
 
 Bookstore is a Java-based desktop application built from scratch using IntelliJ IDEA and Gradle. The project follows a structured approach, integrating JavaFX for the graphical user interface and Uber Jar for creating an executable package. The application adheres to SOLID principles and Object-Oriented Programming (OOP) paradigms to ensure maintainability and scalability.
 
-Key Features:
+##Key Features:
 
 -JavaFX User Interface – A responsive and interactive UI designed with JavaFX.
 
@@ -26,7 +26,8 @@ Key Features:
 
 -OOP Paradigms – Utilizes encapsulation, inheritance, polymorphism, and abstraction for robust application design.
 
-Technologies Used
+
+##Technologies Used
 
 -JavaFX – UI development.
 
